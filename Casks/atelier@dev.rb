@@ -1,6 +1,6 @@
 cask "atelier@dev" do
-  version "0.0.1-dev.20260915180735"
-  sha256 "484c55e0335fb99b208f795912be0c50e67fe28b293d447ec66f7594e63e830c"
+  version "0.0.1-dev.20260916021633"
+  sha256 "87d3bfd46ac840c5f396fe6b6d0b9c44bf2acbd2f43c65b5ecec7fbccf7982b3"
 
   url "https://github.com/jeremytondo/atelier-next/releases/download/v#{version}/atelier-#{version}-macos-arm64.tar.gz"
   name "Atelier"
