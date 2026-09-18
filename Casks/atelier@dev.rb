@@ -1,38 +1,32 @@
 cask "atelier@dev" do
-  version "0.0.1-dev.20260916021633"
-  sha256 "87d3bfd46ac840c5f396fe6b6d0b9c44bf2acbd2f43c65b5ecec7fbccf7982b3"
+  version "0.0.1,20260918204823"
+  sha256 "7281972e11959a0a166fad803e0bd28951de3084764e0c3dfc5ec26294627eff"
 
-  url "https://github.com/jeremytondo/atelier-next/releases/download/v#{version}/atelier-#{version}-macos-arm64.tar.gz"
+  url "https://github.com/jeremytondo/atelier-next/releases/download/dev/Atelier-#{version.csv.first}-#{version.csv.second}.zip"
   name "Atelier"
-  desc "Customizable workspace on Hammerspoon 2: Desktops, Groups, and Quick Apps"
+  desc "Keyboard-driven workspace: Desktops, numbered windows, Quick Apps, leader menu"
   homepage "https://github.com/jeremytondo/atelier-next"
 
-  conflicts_with cask: "jeremytondo/atelier/atelier"
-  depends_on cask: "jeremytondo/atelier/hammerspoon2@dev"
-  depends_on formula: "jq"
+  conflicts_with cask: "jeremytondo/tap/atelier"
   depends_on arch: :arm64
   depends_on macos: :golden_gate
 
-  binary "bin/atelier"
-  artifact "share/atelier", target: "#{HOMEBREW_PREFIX}/share/atelier"
+  app "Atelier.app"
+  binary "#{appdir}/Atelier.app/Contents/Helpers/atelier"
 
-  postflight do
-    system_command "#{HOMEBREW_PREFIX}/bin/atelier", args: ["install"]
-  end
+  # On an upgrade Homebrew quits a running Atelier with this and opens the new
+  # one afterwards; one that was closed stays closed. Atelier finishes a command
+  # in progress before it goes.
+  uninstall quit: "com.elevenideas.Atelier"
 
-  # Uninstall removes the package files. Zap also undoes what `atelier install`
-  # wrote into Hammerspoon 2's settings and Login Items; the init file stays.
-  zap login_item: "Hammerspoon 2",
-      script:     {
-        executable:   "/bin/sh",
-        args:         ["-c",
-                       "for key in configLocation hasCompletedOnboarding dockMenuBehaviour SUEnableAutomaticChecks; do defaults delete net.tenshu.Hammerspoon-2 \"$key\" 2>/dev/null; done; true"],
-        must_succeed: false,
-      }
+  # The configuration in ~/.config/atelier is yours and is never removed.
+  zap trash: "~/Library/Application Support/Atelier"
 
   caveats <<~EOS
-    This cask follows the newest dev release; each dev release replaces the previous one.
-    Your configuration is ~/.config/atelier/init.js and is never removed.
-    Run `atelier doctor` to check the installation.
+    This cask follows the newest development build; each one replaces the last.
+    Your configuration and the window lists are kept through upgrades, channel
+    changes, and uninstalling; `atelier config open` opens the configuration.
+    Run `atelier doctor` after an upgrade. If Homebrew could not quit Atelier,
+    it says the old build is still running, and `atelier restart` puts that right.
   EOS
 end
