@@ -1,6 +1,6 @@
 cask "atelier@dev" do
-  version "0.0.1,20260918204823"
-  sha256 "7281972e11959a0a166fad803e0bd28951de3084764e0c3dfc5ec26294627eff"
+  version "0.0.1,20260918214704"
+  sha256 "e9a052b5f2661943cc1e7b2e4d608b88538188053635d7cfafd693e9f365bda5"
 
   url "https://github.com/jeremytondo/atelier-next/releases/download/dev/Atelier-#{version.csv.first}-#{version.csv.second}.zip"
   name "Atelier"
@@ -13,6 +13,11 @@ cask "atelier@dev" do
 
   app "Atelier.app"
   binary "#{appdir}/Atelier.app/Contents/Helpers/atelier"
+
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args: ["-dr", "com.apple.quarantine", "{{appdir}}/Atelier.app/Contents/Helpers/atelier"]
+  end
 
   # On an upgrade Homebrew quits a running Atelier with this and opens the new
   # one afterwards; one that was closed stays closed. Atelier finishes a command
