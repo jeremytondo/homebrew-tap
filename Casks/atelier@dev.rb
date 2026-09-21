@@ -1,6 +1,6 @@
 cask "atelier@dev" do
-  version "0.0.1,20260920160950"
-  sha256 "a43d228c6e45454d7214be9db9d208416e2d52057d62fe1c18d97b5801dcc1b1"
+  version "0.0.1,20260921010250"
+  sha256 "c375d64171f6dec4ec8c343602b6dd33194a98efdb77078f7ec6b4ce7bb3646e"
 
   url "https://github.com/jeremytondo/atelier-next/releases/download/dev/Atelier-#{version.csv.first}-#{version.csv.second}.zip"
   name "Atelier"
